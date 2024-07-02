@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Spaces</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+       body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-image: url('event.jpg');
+    background-size: cover; 
+    background-attachment: fixed;
+    background-position: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity to dim the image */
+    z-index: 1;
+}
+
+body * {
+    position: relative;
+    z-index: 2;
+}
+
+
+        h1 {
+            margin-top: 20px; 
+            color: rgb(210, 209, 134); 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+            font-size: 2.5em; 
+            font-weight: bold; 
+            text-align: center; 
+        }
+
+        #map {
+            height: 500px;
+            width: 80%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .green-space {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .green-space p {
+            margin: 0;
+            flex: 1; 
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 5px;
+        }
+
+        .green-space button {
+            background-color: #28a745;
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .green-space button:hover {
+            background-color: #218838;
+        }
+
+        .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    text-align: center;
+  }
+  .button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+
+    </style>
+</head>
+
+<body>
+    
+    
+    <h1>Event scheduling and Agenda Management.</h1>
+
+    <div id="map"></div>
+    <div id="green-spaces-container"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    
+    <script>
+        let map;
+
+        function initMap() {
+
+
+            function initMap() {
+    map = L.map('map').setView([37.7749, -122.4194], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add Leaflet.draw controls
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        },
+        draw: {
+            marker: {
+                icon: greenIcon // Use green icon for markers
+            }
+        }
+    });
+    map.addControl(drawControl);
+
+    // Handle drawing events
+    map.on('draw:created', function (e) {
+        var type = e.layerType,
+            layer = e.layer;
+
+        if (type === 'marker') {
+            var description = prompt("Enter a description for this green space:");
+            if (description) {
+                var latitude = layer.getLatLng().lat;
+                var longitude = layer.getLatLng().lng;
+                saveLocation(latitude, longitude, description);
+            }
+        }
+
+        drawnItems.addLayer(layer);
+    });
+
+    loadLocations();
+}
+
+
+
+
+
+
+
+
+            function initMap() {
+    map = L.map('map').setView([37.7749, -122.4194], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add Leaflet.draw controls
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        },
+        draw: {
+            marker: {
+                icon: greenIcon // Use green icon for markers
+            }
+        }
+    });
+    map.addControl(drawControl);
+
+    // Handle drawing events
+    map.on('draw:created', function (e) {
+        var type = e.layerType,
+            layer = e.layer;
+
+        if (type === 'marker') {
+            var description = prompt("Enter a description for this green space:");
+            if (description) {
+                var latitude = layer.getLatLng().lat;
+                var longitude = layer.getLatLng().lng;
+                saveLocation(latitude, longitude, description);
+            }
+        }
+
+        drawnItems.addLayer(layer);
+    });
+
+    loadLocations();
+}
+
+
+
+
+
+            map = L.map('map').setView([37.7749, -122.4194], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            map.on('click', function(event) {
+                let latitude = event.latlng.lat;
+                let longitude = event.latlng.lng;
+
+                let description = prompt("Enter a description for this green space:");
+
+                if (description) {
+                    saveLocation(latitude, longitude, description);
+                }
+            });
+
+            loadLocations();
+        }
+
+        function saveLocation(latitude, longitude, description) {
+            fetch('save_location.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `latitude=${latitude}&longitude=${longitude}&description=${description}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                loadLocations(); 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function loadLocations() {
+            fetch('get_locations.php')
+            .then(response => response.json())
+            .then(locations => {
+                document.getElementById('green-spaces-container').innerHTML = '';
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                locations.forEach(location => {
+                    let greenIcon = L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
+                    let marker = L.marker([location.latitude, location.longitude], { icon: greenIcon })
+                        .bindPopup(location.description)
+                        .addTo(map);
+
+                    let greenSpaceInfo = document.createElement('div');
+                    greenSpaceInfo.className = 'green-space';
+                    greenSpaceInfo.innerHTML = `
+                        <p>${location.description}</p>
+                        <button onclick="deleteLocation(${location.id})">Delete</button>
+                    `;
+                    document.getElementById('green-spaces-container').appendChild(greenSpaceInfo);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function deleteLocation(locationId) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                fetch('delete.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${locationId}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    loadLocations(); 
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+        window.onload = initMap;
+        
+    </script>
+
+    
+
+<div class="button-container">
+    <a href="../../sms/index.php" id="send-mail" class="button">Send Mail</a>
+    <a href="../../codee/index.html" id="send-sms" class="button">Send SMS</a>
+</div>
+
+
+</body>
+
+</html>
+

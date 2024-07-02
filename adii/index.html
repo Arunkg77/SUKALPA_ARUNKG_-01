@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    
+    <header>
+        <h1>Event Management System</h1>
+    </header>
+
+    <!-- Speaker Management Portal -->
+    <section id="speaker-management">
+        <h2>Speaker Management</h2>
+        <form id="speaker-upload-form">
+            <label for="speaker-name">Speaker Name:</label>
+            <input type="text" id="speaker-name" name="speaker-name" required>
+
+            <label for="speaker-bio">Speaker Bio:</label>
+            <textarea id="speaker-bio" name="speaker-bio" rows="4" required></textarea>
+
+            <label for="speaker-photo">Upload Photo:</label>
+            <input type="file" id="speaker-photo" name="speaker-photo" accept="image/*" required>
+
+            <label for="presentation-materials">Upload Presentation Materials:</label>
+            <input type="file" id="presentation-materials" name="presentation-materials" accept=".pdf,.ppt,.pptx">
+
+            <button type="submit">Upload</button>
+        </form>
+    </section>
+
+    <!-- Sponsor Management Module -->
+    <section id="sponsor-management">
+        <h2>Sponsor Management</h2>
+        <div id="sponsor-packages">
+            <!-- Sponsor packages dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Analytics and Reporting -->
+    <section id="analytics-reporting">
+        <h2>Analytics and Reporting</h2>
+        <div id="dashboard">
+            <!-- Analytics dashboard components -->
+        </div>
+    </section>
+
+    <!-- Networking and Community Building -->
+    <section id="networking-community">
+        <h2>Networking and Community Building</h2>
+        <div id="attendee-profiles">
+            <!-- Interactive attendee profiles -->
+        </div>
+        <div id="matchmaking">
+            <!-- AI-powered matchmaking suggestions -->
+        </div>
+        
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
